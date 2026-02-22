@@ -15,6 +15,14 @@
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div id="loader"
+        style="position:fixed;inset:0;background:#1F2937;display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s ease,visibility .5s ease;">
+        <span id="loader-pct"
+            style="font-family:Inter,sans-serif;font-size:clamp(5rem,18vw,12rem);font-weight:700;color:#fff;letter-spacing:-0.03em;line-height:1;user-select:none;">0%</span>
+    </div>
+
+    <div class="page-overlay" id="pageOverlay"></div>
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
@@ -64,8 +72,8 @@
                         vero eveniet, sequi vitae! <strong>10+ years</strong>.
                     </p>
                     <div class="hero-buttons">
-                        <button class="btn"><i class="fas fa-comment-dots"></i> Let's Talk</button>
-                        <button class="btn btn-outline"><i class="fas fa-download"></i> Download CV</button>
+                        <button type="button" class="btn"><i class="fas fa-comment-dots"></i> Let's Talk</button>
+                        <button type="button" class="btn btn-outline"><i class="fas fa-download"></i> Download CV</button>
                     </div>
                     <div class="hero-stats">
                         <div class="stat-item-mini">
@@ -120,7 +128,7 @@
             </div>
 
             <div class="projects-grid">
-                <div class="project-card purple-card" data-tilt>
+                <div class="project-card purple-card">
                     <div class="card-icon-wrapper">
                         <svg class="card-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="18" y="8" width="28" height="48" rx="4" stroke="currentColor" stroke-width="2" />
@@ -139,7 +147,7 @@
                     </div>
                 </div>
 
-                <div class="project-card green-card" data-tilt>
+                <div class="project-card green-card">
                     <div class="card-icon-wrapper">
                         <svg class="card-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="8" y="16" width="48" height="32" rx="2" stroke="currentColor" stroke-width="2" />
@@ -158,7 +166,7 @@
                     </div>
                 </div>
 
-                <div class="project-card pink-card" data-tilt>
+                <div class="project-card pink-card">
                     <div class="card-icon-wrapper">
                         <svg class="card-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="16" y="8" width="32" height="48" rx="4" stroke="currentColor" stroke-width="2" />
@@ -177,7 +185,7 @@
                     </div>
                 </div>
 
-                <div class="project-card blue-card" data-tilt>
+                <div class="project-card blue-card">
                     <div class="card-icon-wrapper">
                         <svg class="card-icon-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="32" cy="20" r="8" stroke="currentColor" stroke-width="2" />
@@ -199,92 +207,13 @@
             </div>
 
             <div class="text-center">
-                <button class="btn btn-outline"><i class="fas fa-briefcase"></i> View All Projects</button>
+                <button type="button" class="btn btn-outline"><i class="fas fa-briefcase"></i> View All Projects</button>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
-
-        <!-- Diagonal scrolling strips -->
-        <div class="contact-strips" aria-hidden="true">
-            <div class="contact-strip contact-strip--1">
-                <div class="contact-strip__inner">
-                    <span><i class="fas fa-paper-plane"></i> LET'S TALK</span>
-                    <span><i class="fas fa-pen-nib"></i> GET IN TOUCH</span>
-                    <span><i class="fas fa-rocket"></i> SAY HELLO</span>
-                    <span><i class="fas fa-star"></i> COLLABORATE</span>
-                    <span><i class="fas fa-coffee"></i> HIRE ME</span>
-                    <span><i class="fas fa-bolt"></i> NEW PROJECT</span>
-                    <span><i class="fas fa-paper-plane"></i> LET'S TALK</span>
-                    <span><i class="fas fa-pen-nib"></i> GET IN TOUCH</span>
-                    <span><i class="fas fa-rocket"></i> SAY HELLO</span>
-                    <span><i class="fas fa-star"></i> COLLABORATE</span>
-                    <span><i class="fas fa-coffee"></i> HIRE ME</span>
-                    <span><i class="fas fa-bolt"></i> NEW PROJECT</span>
-                </div>
-            </div>
-            <div class="contact-strip contact-strip--2">
-                <div class="contact-strip__inner contact-strip__inner--rev">
-                    <span><i class="fas fa-envelope"></i> SEND A MESSAGE</span>
-                    <span><i class="fas fa-handshake"></i> LET'S BUILD</span>
-                    <span><i class="fas fa-palette"></i> DESIGN TOGETHER</span>
-                    <span><i class="fas fa-code"></i> CREATE SOMETHING</span>
-                    <span><i class="fas fa-lightbulb"></i> BIG IDEAS</span>
-                    <span><i class="fas fa-heart"></i> GREAT WORK</span>
-                    <span><i class="fas fa-envelope"></i> SEND A MESSAGE</span>
-                    <span><i class="fas fa-handshake"></i> LET'S BUILD</span>
-                    <span><i class="fas fa-palette"></i> DESIGN TOGETHER</span>
-                    <span><i class="fas fa-code"></i> CREATE SOMETHING</span>
-                    <span><i class="fas fa-lightbulb"></i> BIG IDEAS</span>
-                    <span><i class="fas fa-heart"></i> GREAT WORK</span>
-                </div>
-            </div>
-            <div class="contact-strip contact-strip--3">
-                <div class="contact-strip__inner">
-                    <span><i class="fas fa-magic"></i> UX DESIGN</span>
-                    <span><i class="fas fa-mobile-alt"></i> UI DESIGN</span>
-                    <span><i class="fas fa-vector-square"></i> PRODUCT DESIGN</span>
-                    <span><i class="fas fa-users"></i> USER RESEARCH</span>
-                    <span><i class="fas fa-layer-group"></i> WIREFRAMING</span>
-                    <span><i class="fas fa-paint-brush"></i> PROTOTYPING</span>
-                    <span><i class="fas fa-magic"></i> UX DESIGN</span>
-                    <span><i class="fas fa-mobile-alt"></i> UI DESIGN</span>
-                    <span><i class="fas fa-vector-square"></i> PRODUCT DESIGN</span>
-                    <span><i class="fas fa-users"></i> USER RESEARCH</span>
-                    <span><i class="fas fa-layer-group"></i> WIREFRAMING</span>
-                    <span><i class="fas fa-paint-brush"></i> PROTOTYPING</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Decorative SVG shapes -->
-        <div class="contact-deco" aria-hidden="true">
-            <svg class="deco deco--star-lg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M30 2l5.5 17H55l-14.5 10.5 5.5 17L30 37l-16 9.5 5.5-17L5 19h19.5z" fill="#8B5CF6"
-                    fill-opacity="0.25" stroke="#8B5CF6" stroke-width="2" />
-            </svg>
-            <svg class="deco deco--circle" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="25" cy="25" r="23" stroke="#8B5CF6" stroke-width="2.5" stroke-dasharray="6 4" />
-            </svg>
-            <svg class="deco deco--plus" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="16" y="0" width="8" height="40" rx="4" fill="#8B5CF6" fill-opacity="0.35" />
-                <rect x="0" y="16" width="40" height="8" rx="4" fill="#8B5CF6" fill-opacity="0.35" />
-            </svg>
-            <svg class="deco deco--star-sm" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 2l3.5 11H35l-9.5 7 3.5 11L20 24.5 11 31l3.5-11L5 13h11.5z" fill="#8B5CF6"
-                    fill-opacity="0.3" stroke="#8B5CF6" stroke-width="1.5" />
-            </svg>
-            <svg class="deco deco--ring" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="28" stroke="#1F2937" stroke-width="2" stroke-dasharray="4 6" />
-                <circle cx="32" cy="32" r="18" stroke="#8B5CF6" stroke-width="2" />
-            </svg>
-            <svg class="deco deco--zigzag" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polyline points="0,10 10,2 20,10 30,2 40,10 50,2 60,10 70,2 80,10" stroke="#8B5CF6" stroke-width="2.5"
-                    stroke-linecap="round" stroke-linejoin="round" fill="none" />
-            </svg>
-        </div>
 
         <div class="container">
             <div class="contact-box">

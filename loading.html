@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1F2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100dvh;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        #pct {
+            font-size: clamp(5rem, 18vw, 12rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            user-select: none;
+            transition: opacity 0.3s ease;
+        }
+
+        body.done {
+            animation: fade-out 0.5s ease forwards;
+        }
+
+        @keyframes fade-out {
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <span id="pct">0%</span>
+
+    <script>
+        const pctEl = document.getElementById('pct');
+        let current = 0;
+        let target = 0;
+
+        function setTarget(n) { target = Math.max(target, Math.min(n, 100)); }
+
+        function tick() {
+            if (current < target) {
+                current = Math.min(current + 1, target);
+                pctEl.textContent = current + '%';
+            }
+            if (current < 100) {
+                requestAnimationFrame(tick);
+            } else {
+                pctEl.textContent = '100%';
+                document.body.classList.add('done');
+                setTimeout(() => { window.location.href = 'index.html'; }, 480);
+            }
+        }
+        requestAnimationFrame(tick);
+
+        // Phase 1: crawl to 30% immediately to show life
+        let crawl = 0;
+        const crawlTimer = setInterval(() => {
+            crawl += Math.random() * 6 + 2;
+            if (crawl >= 30) { crawl = 30; clearInterval(crawlTimer); }
+            setTarget(Math.floor(crawl));
+        }, 60);
+
+        // Phase 2: fetch index.html, parse all resource URLs, preload them
+        fetch('index.html')
+            .then(r => r.text())
+            .then(html => {
+                setTarget(35);
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                // Collect all external resources referenced in <head> + <body>
+                const urls = new Set();
+
+                doc.querySelectorAll('link[href]').forEach(el => {
+                    const h = el.getAttribute('href');
+                    if (h && !h.startsWith('#')) urls.add(h);
+                });
+                doc.querySelectorAll('script[src]').forEach(el => urls.add(el.getAttribute('src')));
+                doc.querySelectorAll('img[src]').forEach(el => urls.add(el.getAttribute('src')));
+
+                const resources = [...urls].filter(Boolean);
+                const total = resources.length || 1;
+                let loaded = 0;
+
+                const onLoad = () => {
+                    loaded++;
+                    // Map loaded/total onto the 35–95 range
+                    setTarget(35 + Math.floor((loaded / total) * 60));
+                };
+
+                resources.forEach(url => {
+                    if (/\.(css)(\?.*)?$/.test(url) || url.includes('fonts.googleapis') || url.includes('cloudflare')) {
+                        const link = document.createElement('link');
+                        link.rel = 'preload';
+                        link.as = 'style';
+                        link.href = url;
+                        link.onload = link.onerror = onLoad;
+                        document.head.appendChild(link);
+                    } else if (/\.(js)(\?.*)?$/.test(url)) {
+                        const s = document.createElement('link');
+                        s.rel = 'preload';
+                        s.as = 'script';
+                        s.href = url;
+                        s.onload = s.onerror = onLoad;
+                        document.head.appendChild(s);
+                    } else if (/\.(png|jpe?g|gif|webp|svg)(\?.*)?$/i.test(url)) {
+                        const img = new Image();
+                        img.onload = img.onerror = onLoad;
+                        img.src = url;
+                    } else {
+                        // Unknown resource — count it instantly
+                        onLoad();
+                    }
+                });
+
+                // Safety: if resources come back empty, jump forward
+                if (resources.length === 0) setTarget(95);
+            })
+            .catch(() => setTarget(95));
+
+        // Hard cap: never hang forever — push to 100 after 4s max
+        setTimeout(() => setTarget(100), 4000);
+    </script>
+</body>
+
+</html>
